@@ -27,9 +27,27 @@ __pycache__/
 .Python
 python_preprocessing/venv/
 
-# Processing outputs
+# Large dataset files (should not be in version control)
+/dataset/*.csv
+/dataset/*.tsv
+/dataset/*.json
+/dataset/**/*.csv
+/dataset/**/*.tsv
+/dataset/**/*.json
+/dataset/**/*.txt
+*.zip
+*.tar.gz
+*.rar
+
+# ML Processing outputs (can be regenerated)
 *.pkl
 *.joblib
+*.npy
+/python_preprocessing/processed_data/*.npy
+/python_preprocessing/processed_data/*.pkl
+/python_preprocessing/processed_data/*.joblib
+/python_preprocessing/trained_models/*.pkl
+/python_preprocessing/trained_models/*.joblib
 /preprocessed_data/
 /processed_outputs/
 
