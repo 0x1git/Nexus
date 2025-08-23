@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
@@ -15,14 +16,28 @@ export function TextInputForm() {
   const [textInput, setTextInput] = useState("")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [activeTab, setActiveTab] = useState("text")
+  const router = useRouter()
 
   const handleAnalyze = async () => {
+    if (!canAnalyze) return
+    
     setIsAnalyzing(true)
-    // Simulate analysis process
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    
+    // Store analysis data in localStorage for demo purposes
+    const analysisData = {
+      input: textInput,
+      timestamp: new Date().toISOString(),
+      type: activeTab,
+    }
+    localStorage.setItem('currentAnalysis', JSON.stringify(analysisData))
+    
+    // Brief delay to show loading state
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    
     setIsAnalyzing(false)
-    // Navigate to results page (would be implemented with router)
-    console.log("Analysis complete")
+    
+    // Navigate to processing page
+    router.push('/processing')
   }
 
   const canAnalyze = textInput.trim().length > 0 || activeTab !== "text"

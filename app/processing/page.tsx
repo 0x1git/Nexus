@@ -1,10 +1,12 @@
-import { TextInputForm } from "@/components/text-input-form"
+"use client"
+
+import { AnalysisProgress } from "@/components/analysis-progress"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Brain } from "lucide-react"
 import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
 
-export default function AnalyzePage() {
+export default function ProcessingPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -12,10 +14,10 @@ export default function AnalyzePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
-              <Link href="/">
+              <Link href="/analyze">
                 <Button variant="ghost" size="sm">
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back
+                  Back to Input
                 </Button>
               </Link>
               <div className="flex items-center space-x-2">
@@ -28,12 +30,6 @@ export default function AnalyzePage() {
 
             <div className="flex items-center space-x-4">
               <ThemeToggle />
-              <Button variant="outline" size="sm">
-                Save Draft
-              </Button>
-              <Button variant="outline" size="sm">
-                History
-              </Button>
             </div>
           </div>
         </div>
@@ -42,13 +38,21 @@ export default function AnalyzePage() {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-serif font-bold text-foreground mb-2">Text Analysis</h1>
+          <h1 className="text-3xl font-serif font-bold text-foreground mb-2">Processing Analysis</h1>
           <p className="text-muted-foreground">
-            Upload documents or paste text to extract key themes, analyze sentiment, and generate insights.
+            Your text is being analyzed using advanced NLP algorithms. This typically takes 1-2 minutes.
           </p>
         </div>
 
-        <TextInputForm />
+        <AnalysisProgress 
+          onComplete={(results) => {
+            // Store results and redirect to dashboard
+            localStorage.setItem('analysisResults', JSON.stringify(results))
+            setTimeout(() => {
+              window.location.href = '/dashboard'
+            }, 2000)
+          }}
+        />
       </div>
     </div>
   )

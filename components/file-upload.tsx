@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Upload, File, X, CheckCircle, AlertCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { FileProcessor } from "@/components/file-processor"
 
 interface UploadedFile {
   id: string
@@ -18,7 +19,7 @@ interface UploadedFile {
 }
 
 export function FileUpload() {
-  const [files, setFiles] = useState<UploadedFile[]>([])
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
   const [isDragOver, setIsDragOver] = useState(false)
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -45,31 +46,11 @@ export function FileUpload() {
   }, [])
 
   const processFiles = (fileList: File[]) => {
-    const newFiles: UploadedFile[] = fileList.map((file) => ({
-      id: Math.random().toString(36).substr(2, 9),
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      status: "uploading",
-    }))
-
-    setFiles((prev) => [...prev, ...newFiles])
-
-    // Simulate upload process
-    newFiles.forEach((file) => {
-      setTimeout(
-        () => {
-          setFiles((prev) =>
-            prev.map((f) => (f.id === file.id ? { ...f, status: Math.random() > 0.1 ? "success" : "error" } : f)),
-          )
-        },
-        1000 + Math.random() * 2000,
-      )
-    })
+    setUploadedFiles(prev => [...prev, ...fileList])
   }
 
-  const removeFile = (id: string) => {
-    setFiles((prev) => prev.filter((f) => f.id !== id))
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index))
   }
 
   const formatFileSize = (bytes: number) => {
@@ -122,13 +103,13 @@ export function FileUpload() {
         </CardContent>
       </Card>
 
-      {files.length > 0 && (
+      {uploadedFiles.length > 0 && (
         <Card>
           <CardContent className="pt-6">
             <h4 className="font-serif font-semibold mb-4">Uploaded Files</h4>
             <div className="space-y-3">
-              {files.map((file) => (
-                <div key={file.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+              {uploadedFiles.map((file, index) => (
+                <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                   <div className="flex items-center space-x-3">
                     <File className="w-5 h-5 text-muted-foreground" />
                     <div>
@@ -138,12 +119,8 @@ export function FileUpload() {
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    {file.status === "uploading" && (
-                      <div className="w-4 h-4 border-2 border-secondary border-t-transparent rounded-full animate-spin" />
-                    )}
-                    {file.status === "success" && <CheckCircle className="w-4 h-4 text-green-500" />}
-                    {file.status === "error" && <AlertCircle className="w-4 h-4 text-destructive" />}
-                    <Button variant="ghost" size="sm" onClick={() => removeFile(file.id)} className="h-8 w-8 p-0">
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                    <Button variant="ghost" size="sm" onClick={() => removeFile(index)} className="h-8 w-8 p-0">
                       <X className="w-4 h-4" />
                     </Button>
                   </div>
@@ -152,6 +129,11 @@ export function FileUpload() {
             </div>
           </CardContent>
         </Card>
+      )}
+
+      {/* File Processor */}
+      {uploadedFiles.length > 0 && (
+        <FileProcessor files={uploadedFiles} />
       )}
     </div>
   )

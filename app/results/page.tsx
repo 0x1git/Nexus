@@ -2,6 +2,8 @@ import { AnalysisResults } from "@/components/analysis-results"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Brain, Download, Share, Mail } from "lucide-react"
 import Link from "next/link"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { ExportDialog } from "@/components/export-dialog"
 
 export default function ResultsPage() {
   return (
@@ -26,6 +28,7 @@ export default function ResultsPage() {
             </div>
 
             <div className="flex items-center space-x-4">
+              <ThemeToggle />
               <Button variant="outline" size="sm">
                 <Share className="w-4 h-4 mr-2" />
                 Share Results
@@ -34,10 +37,12 @@ export default function ResultsPage() {
                 <Mail className="w-4 h-4 mr-2" />
                 Email Report
               </Button>
-              <Button size="sm" className="bg-secondary hover:bg-secondary/90">
-                <Download className="w-4 h-4 mr-2" />
-                Export PDF
-              </Button>
+              <ExportDialog>
+                <Button size="sm" className="bg-secondary hover:bg-secondary/90">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export PDF
+                </Button>
+              </ExportDialog>
             </div>
           </div>
         </div>

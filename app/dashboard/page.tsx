@@ -2,6 +2,8 @@ import { AnalysisDashboard } from "@/components/analysis-dashboard"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Brain, Settings, Download, Share } from "lucide-react"
 import Link from "next/link"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { ExportDialog } from "@/components/export-dialog"
 
 export default function DashboardPage() {
   return (
@@ -26,18 +28,23 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center space-x-4">
+              <ThemeToggle />
               <Button variant="outline" size="sm">
                 <Share className="w-4 h-4 mr-2" />
                 Share
               </Button>
-              <Button variant="outline" size="sm">
-                <Download className="w-4 h-4 mr-2" />
-                Export
-              </Button>
-              <Button variant="outline" size="sm">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
+              <ExportDialog>
+                <Button variant="outline" size="sm">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export
+                </Button>
+              </ExportDialog>
+              <Link href="/settings">
+                <Button variant="outline" size="sm">
+                  <Settings className="w-4 h-4 mr-2" />
+                  Settings
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

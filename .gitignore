@@ -19,6 +19,37 @@ yarn-error.log*
 # env files
 .env*
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+python_preprocessing/venv/
+
+# Processing outputs
+*.pkl
+*.joblib
+/preprocessed_data/
+/processed_outputs/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Documentation temp files
+*_TEMP.md
+*_BACKUP.md
+
 # vercel
 .vercel
 
